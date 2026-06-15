@@ -1,0 +1,20 @@
+{
+  "name": "hhbp-codex",
+  "interface": {
+    "displayName": "HHBP for Codex"
+  },
+  "plugins": [
+    {
+      "name": "hhbp-codex",
+      "source": {
+        "source": "local",
+        "path": "./plugins/hhbp-codex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

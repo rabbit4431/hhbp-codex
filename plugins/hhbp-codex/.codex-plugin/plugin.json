@@ -1,0 +1,23 @@
+{
+  "name": "hhbp-codex",
+  "version": "0.0.1",
+  "description": "Heshuo Harness Best Practices — DDD architecture standards and Java development skills for Maven multi-module projects",
+  "author": {
+    "name": "rabbit4431"
+  },
+  "repository": "https://github.com/rabbit4431/hhbp-codex",
+  "license": "MIT",
+  "keywords": ["java", "ddd", "maven", "spring-boot", "code-generation"],
+
+  "skills": "./common/skills/",
+  "mcpServers": "./common/mcp/mcp.json",
+  "hooks": "./common/hooks/hooks.json",
+
+  "interface": {
+    "displayName": "HHBP for Codex",
+    "shortDescription": "DDD + Java skills for Maven microservices",
+    "category": "Developer Tools",
+    "developerName": "rabbit4431",
+    "capabilities": ["Read", "Write"]
+  }
+}
