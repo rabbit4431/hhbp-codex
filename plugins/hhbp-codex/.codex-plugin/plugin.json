@@ -11,7 +11,7 @@
 
   "skills": "./common/skills/",
   "mcpServers": "./common/mcp/mcp.json",
-  "hooks": "./common/hooks/hooks.json",
+  "hooks": "./hooks/hooks.json",
 
   "interface": {
     "displayName": "HHBP for Codex",

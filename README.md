@@ -16,10 +16,13 @@ This wrapper follows the
 
 - **Skills** — the shared `common/skills/` workflows (`SKILL.md` definitions), used
   directly with no conversion.
-- **Hooks** — the session lifecycle hooks in `common/hooks/hooks.json` (SessionStart,
-  PreToolUse, PostToolUse, SessionEnd, Stop), reused as-is. Codex provides a
-  `${CLAUDE_PLUGIN_ROOT}` alias for `${PLUGIN_ROOT}`, so the existing hook commands work
-  unchanged.
+- **Hooks** — the session lifecycle hooks (SessionStart, PreToolUse, PostToolUse,
+  SessionEnd, Stop). The manifest points at a Codex-owned
+  `plugins/hhbp-codex/hooks/hooks.json` rather than `common/hooks/hooks.json`: it is
+  identical except the `async` flag is removed, because Codex does not support async
+  hooks yet (it would otherwise skip the activity-tracker and session-end hooks). The
+  hook commands still invoke the shared scripts under `common/scripts/hooks/` via the
+  `${CLAUDE_PLUGIN_ROOT}` alias Codex provides for `${PLUGIN_ROOT}`.
 - **MCP** — the server configuration in `common/mcp/mcp.json` (e.g. `context7` for live
   documentation lookup).
 
@@ -35,7 +38,9 @@ hhbp-codex/                              # marketplace root (the dir you `add`)
 └── plugins/
     └── hhbp-codex/                      # the plugin itself
         ├── .codex-plugin/
-        │   └── plugin.json             # Codex plugin manifest (points at ./common/…)
+        │   └── plugin.json             # Codex plugin manifest
+        ├── hooks/
+        │   └── hooks.json              # Codex-owned hooks (async removed)
         └── common/                     # git submodule → hhbp-common
             ├── skills/                 # shared skill definitions
             ├── hooks/hooks.json        # shared hook registrations
