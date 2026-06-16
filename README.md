@@ -9,7 +9,7 @@ for Java Maven microservices development.
 `hhbp-codex` is the Codex-compatible sibling of
 [`hhbp-claude-code`](https://github.com/rabbit4431/hhbp-claude-code). Both are thin
 wrappers around the shared **`hhbp-common`** content (vendored here as the `common/`
-git submodule), exposing it to a host harness via that harness's plugin format.
+directory via git subtree), exposing it to a host harness via that harness's plugin format.
 
 This wrapper follows the
 [Codex plugin spec](https://developers.openai.com/codex/plugins/build). It surfaces:
@@ -41,7 +41,7 @@ hhbp-codex/                              # marketplace root (the dir you `add`)
         │   └── plugin.json             # Codex plugin manifest
         ├── hooks/
         │   └── hooks.json              # Codex-owned hooks (async removed)
-        └── common/                     # git submodule → hhbp-common
+        └── common/                     # vendored via git subtree from hhbp-common
             ├── skills/                 # shared skill definitions
             ├── hooks/hooks.json        # shared hook registrations
             ├── mcp/mcp.json            # shared MCP server config
@@ -52,17 +52,15 @@ The repo is a Codex **marketplace** whose single plugin lives under
 `plugins/hhbp-codex/`. Codex does not discover a plugin whose `source.path` is the
 marketplace root itself (`./`), so the plugin must sit in a subdirectory — matching the
 `openai-curated` convention. The manifest's `skills`, `hooks`, and `mcpServers` fields
-point straight at the `./common/` submodule directories — no duplicated, harness-specific
+point straight at the `./common/` subtree directories — no duplicated, harness-specific
 copies.
 
 ## Installation
 
-1. Clone with the submodule:
+1. Clone the repo (the `common/` content is vendored — no submodule step needed):
 
    ```bash
-   git clone --recurse-submodules <repo-url> hhbp-codex
-   # or, after a plain clone:
-   git submodule update --init
+   git clone <repo-url> hhbp-codex
    ```
 
 2. Add the marketplace and install the plugin:
