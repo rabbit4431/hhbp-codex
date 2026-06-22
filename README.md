@@ -57,20 +57,14 @@ copies.
 
 ## Installation
 
-1. Clone the repo (the `common/` content is vendored — no submodule step needed):
+1. Add the marketplace and install the plugin:
 
    ```bash
-   git clone <repo-url> hhbp-codex
-   ```
-
-2. Add the marketplace and install the plugin:
-
-   ```bash
-   codex plugin marketplace add ./hhbp-codex      # path to this repo
+   codex plugin marketplace add rabbit4431/hhbp-codex
    codex plugin add hhbp-codex@hhbp-codex
    ```
 
-3. Enable the MCP server in your Codex `config.toml`:
+2. Enable the MCP server in your Codex `config.toml`:
 
    ```toml
    [plugins."hhbp-codex".mcp_servers.context7]
