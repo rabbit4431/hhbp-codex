@@ -71,6 +71,20 @@ copies.
    enabled = true
    ```
 
+## Updating common
+
+`plugins/hhbp-codex/common/` is vendored from
+[hhbp-common](https://github.com/rabbit4431/hhbp-common) via git subtree. To pull the
+latest shared content:
+
+```bash
+# one-time: register the upstream remote
+git remote add common https://github.com/rabbit4431/hhbp-common.git
+
+# pull the latest common content into the common/ subtree
+git subtree pull --prefix=plugins/hhbp-codex/common common main --squash
+```
+
 ## Notes
 
 - **MCP wrapper key:** `common/mcp/mcp.json` uses the `mcpServers` wrapper key (shared
