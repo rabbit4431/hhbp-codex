@@ -71,47 +71,19 @@ copies.
    enabled = true
    ```
 
-## Model tiers
+## Models
 
-Skills declare a model tier in `SKILL.md` frontmatter — `metadata.hhbp-phase` (`design` / `impl`)
-and `metadata.codex-model`:
+Skills run on whatever model the Codex session uses, and every subagent inherits it. The `model:`
+frontmatter in `common/skills` is Claude Code–only; Codex ignores it. Pick the model when you start
+the session (`codex -m <model>` or `model` in `~/.codex/config.toml`).
 
-| Tier | Codex model | Skills |
-|---|---|---|
-| design | `gpt6-astra` | service-discovery, contract-first-design, writing-implementation-plan, cross-service-review, code-review-request, security-review |
-| impl | `gpt6.1-sol` | all other workflow, codegen, and test skills (`sql-analyze` and `slow-sql-optimize` keep the session model) |
-
-Codex has no per-skill model setting and cannot change a session's model mid-session, so the
-switch works like this:
-
-- **Inside the `springboot-feature-bootstrap` workflow — automatic.** Run the session on the impl
-  model. At each phase transition, the dispatcher runs a design phase (discovery, contracts,
-  planning, review) in a subagent spawned on `gpt6-astra`, then resumes in the main thread.
-  Approval gates still pause in the main thread. See "Model routing" in
-  `common/skills/springboot-feature-bootstrap/references/phase-dispatcher.md`.
-- **A skill used on its own — pick a profile.** `codex --profile hhbp-design` or
-  `codex --profile hhbp-impl`.
-
-Add to `~/.codex/config.toml`:
+The workflow nests subagents two levels deep — implementation streams (`subagent-task-execution`)
+dispatch per-task implementer and reviewer subagents — so raise Codex's default spawn depth of 1:
 
 ```toml
-# workflow sessions (orchestrator + impl phases) run on the impl model
-model = "gpt6.1-sol"
-
 [agents]
-default_subagent_model = "gpt6.1-sol"
-max_depth = 2   # a phase subagent dispatches its own reviewer/task subagents
-
-[profiles.hhbp-design]
-model = "gpt6-astra"
-
-[profiles.hhbp-impl]
-model = "gpt6.1-sol"
+max_depth = 2
 ```
-
-The automatic switch relies on Codex honoring the model the dispatcher requests at spawn time —
-it is an instruction to the agent, not a config-enforced setting. Open a subagent thread (`o`) to
-confirm which model it runs on.
 
 ## Updating common
 
