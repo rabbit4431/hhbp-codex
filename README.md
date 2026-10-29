@@ -14,8 +14,17 @@ directory via git subtree), exposing it to a host harness via that harness's plu
 This wrapper follows the
 [Codex plugin spec](https://developers.openai.com/codex/plugins/build). It surfaces:
 
-- **Skills** — the shared `common/skills/` workflows (`SKILL.md` definitions), used
-  directly with no conversion.
+- **Skills** — the 21 shared `common/skills/` workflows (`SKILL.md` definitions), used
+  directly with no conversion:
+  - *Multi-service feature workflow* — `springboot-feature-bootstrap` orchestrates the
+    9-phase chain: `service-discovery`, `feature-workspace-setup`, `contract-first-design`,
+    `parallel-implementation`, `multi-service-integration-test`, `cross-service-review`,
+    `multi-branch-merge`, `feature-cleanup`
+  - *Foundation* — `test-driven-development`, `writing-implementation-plan`,
+    `subagent-task-execution`, `code-review-request`, `finishing-a-feature-branch`,
+    `security-review`, `docs-lookup`
+  - *Codegen & SQL* — `generate-api`, `generate-code`, `remove-unused-class`, `sql-analyze`,
+    `slow-sql-optimize`
 - **Hooks** — PreToolUse (`block-dangerous.js`, blocks dangerous shell commands) and
   PostToolUse (`git-workflow.js`, enforces git commit conventions). The manifest points
   at a Codex-owned `plugins/hhbp-codex/hooks/hooks.json` rather than
