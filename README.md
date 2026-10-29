@@ -1,7 +1,7 @@
 # hhbp-codex
 
 Heshuo Harness Best Practices — [OpenAI Codex](https://developers.openai.com/codex)
-plugin providing DDD-standard skills, session lifecycle hooks, and MCP configuration
+plugin providing DDD-standard skills, safety hooks, and MCP configuration
 for Java Maven microservices development.
 
 ## Overview
@@ -16,13 +16,13 @@ This wrapper follows the
 
 - **Skills** — the shared `common/skills/` workflows (`SKILL.md` definitions), used
   directly with no conversion.
-- **Hooks** — the session lifecycle hooks (SessionStart, PreToolUse, PostToolUse,
-  SessionEnd, Stop). The manifest points at a Codex-owned
-  `plugins/hhbp-codex/hooks/hooks.json` rather than `common/hooks/hooks.json`: it is
-  identical except the `async` flag is removed, because Codex does not support async
-  hooks yet (it would otherwise skip the activity-tracker and session-end hooks). The
-  hook commands still invoke the shared scripts under `common/scripts/hooks/` via the
-  `${CLAUDE_PLUGIN_ROOT}` alias Codex provides for `${PLUGIN_ROOT}`.
+- **Hooks** — PreToolUse (`block-dangerous.js`, blocks dangerous shell commands) and
+  PostToolUse (`git-workflow.js`, enforces git commit conventions). The manifest points
+  at a Codex-owned `plugins/hhbp-codex/hooks/hooks.json` rather than
+  `common/hooks/hooks.json`, so Codex-specific adjustments (for example, Codex does not
+  support async hooks yet) never have to go into `common`. The hook commands invoke the
+  shared scripts under `common/scripts/hooks/` via the `${CLAUDE_PLUGIN_ROOT}` alias
+  Codex provides for `${PLUGIN_ROOT}`.
 - **MCP** — the server configuration in `common/mcp/mcp.json` (e.g. `context7` for live
   documentation lookup).
 
@@ -40,12 +40,12 @@ hhbp-codex/                              # marketplace root (the dir you `add`)
         ├── .codex-plugin/
         │   └── plugin.json             # Codex plugin manifest
         ├── hooks/
-        │   └── hooks.json              # Codex-owned hooks (async removed)
+        │   └── hooks.json              # Codex-owned hook registrations
         └── common/                     # vendored via git subtree from hhbp-common
             ├── skills/                 # shared skill definitions
             ├── hooks/hooks.json        # shared hook registrations
             ├── mcp/mcp.json            # shared MCP server config
-            └── scripts/                # hook implementations + shared libs
+            └── scripts/                # hook implementations
 ```
 
 The repo is a Codex **marketplace** whose single plugin lives under
