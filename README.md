@@ -1,5 +1,7 @@
 # hhbp-codex
 
+**English** · [Français](README.fr.md) · [Deutsch](README.de.md)
+
 Heshuo Harness Best Practices — [OpenAI Codex](https://developers.openai.com/codex)
 plugin providing DDD-standard skills, safety hooks, and MCP configuration
 for Java Maven microservices development.
@@ -14,7 +16,7 @@ directory via git subtree), exposing it to a host harness via that harness's plu
 This wrapper follows the
 [Codex plugin spec](https://developers.openai.com/codex/plugins/build). It surfaces:
 
-- **Skills** — the 21 shared `common/skills/` workflows (`SKILL.md` definitions), used
+- **Skills** — the 22 shared `common/skills/` workflows (`SKILL.md` definitions), used
   directly with no conversion:
   - *Multi-service feature workflow* — `springboot-feature-bootstrap` orchestrates the
     9-phase chain: `service-discovery`, `feature-workspace-setup`, `contract-first-design`,
@@ -22,10 +24,11 @@ This wrapper follows the
     `multi-branch-merge`, `feature-cleanup`
   - *Foundation* — `test-driven-development`, `writing-implementation-plan`,
     `subagent-task-execution`, `code-review-request`, `finishing-a-feature-branch`,
-    `security-review`, `docs-lookup`
+    `security-review`, `docs-lookup`, `language-setup`
   - *Codegen & SQL* — `generate-api`, `generate-code`, `remove-unused-class`, `sql-analyze`,
     `slow-sql-optimize`
-- **Hooks** — PreToolUse (`block-dangerous.js`, blocks dangerous shell commands) and
+- **Hooks** — SessionStart (`language.js`, applies your chosen language),
+  PreToolUse (`block-dangerous.js`, blocks dangerous shell commands) and
   PostToolUse (`git-workflow.js`, enforces git commit conventions). The manifest points
   at a Codex-owned `plugins/hhbp-codex/hooks/hooks.json` rather than
   `common/hooks/hooks.json`, so Codex-specific adjustments (for example, Codex does not
@@ -79,6 +82,37 @@ copies.
    [plugins."hhbp-codex".mcp_servers.context7]
    enabled = true
    ```
+
+3. Choose a language — see [Language](#language). New hooks must be reviewed and trusted
+   with `/hooks` before Codex runs them.
+
+## Language
+
+The plugin can reply, and write plans, reviews, reports, commit message descriptions, and code
+comments, in:
+
+| Code | Language |
+|---|---|
+| `en` | English (default) |
+| `fr` | Français |
+| `de` | Deutsch |
+
+Codex has no install-time options prompt, so the plugin registers the `language-setup` skill as its
+onboarding skill (`extensions.com.openai.onboardingSkill`): plugin setup runs it and asks you to
+pick a language. Run it again at any time by asking "change the HHBP language". It saves your
+choice to `~/.hhbp/config.json`:
+
+```json
+{ "language": "fr" }
+```
+
+The `HHBP_LANGUAGE` environment variable (for example `HHBP_LANGUAGE=de codex`) overrides the file.
+The new language applies from the next session.
+
+Code identifiers, file names, commands, the commit `<type>:` prefix, and workflow protocol tokens
+(`feature-state.json`, `REVIEW.md` verdicts) stay in English so the skills keep working.
+Blocked-command messages are translated too. Skills and specs are written in English; the language
+setting controls output only.
 
 ## Models
 
