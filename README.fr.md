@@ -1,6 +1,6 @@
 # hhbp-codex
 
-[English](README.md) · **Français** · [Deutsch](README.de.md)
+[English](README.md) · **Français** · [Deutsch](README.de.md) · [Русский](README.ru.md) · [日本語](README.ja.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [한국어](README.ko.md)
 
 Heshuo Harness Best Practices — plugin [OpenAI Codex](https://developers.openai.com/codex)
 fournissant des skills conformes au DDD, des hooks de sécurité et une configuration MCP
@@ -96,6 +96,11 @@ commentaires de code, dans les langues suivantes :
 | `en` | English (par défaut) |
 | `fr` | Français |
 | `de` | Deutsch |
+| `ru` | Русский |
+| `ja` | 日本語 |
+| `zh-CN` | 简体中文 |
+| `zh-TW` | 繁體中文 |
+| `ko` | 한국어 |
 
 Codex ne propose pas d'options à l'installation ; le plugin enregistre donc le skill
 `language-setup` comme skill d'accueil (`extensions.com.openai.onboardingSkill`) : la configuration
