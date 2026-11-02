@@ -19,5 +19,11 @@
     "category": "Developer Tools",
     "developerName": "rabbit4431",
     "capabilities": ["Read", "Write"]
+  },
+
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./common/skills/language-setup/SKILL.md"
+    }
   }
 }
